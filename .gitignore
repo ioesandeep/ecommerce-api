@@ -1,5 +1,4 @@
 node_modules
 .git
 .idea
-public/images/
-public/javascripts/
+config.js
