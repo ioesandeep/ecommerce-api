@@ -2,9 +2,13 @@ const mongo = require('../../db');
 const {ObjectID} = require('mongodb');
 
 class CategoryService {
-    async getCategories() {
+    async getCategories(match = {}) {
         const db = await mongo.db();
-        return db.collection('categories').find().toArray();
+        return db.collection('categories').find(match).toArray();
+    }
+
+    async getChildCategories(id) {
+        return this.getCategories({parent: id});
     }
 
     async getCategory(match) {
