@@ -2,7 +2,10 @@ const controller = require('./user.controller');
 
 module.exports = {
     getUsers: (req, res) => {
-        controller.getUsers(req, res);
+    controller.getUsers(req, res);
+    },
+    getUser: (req, res) => {
+    controller.getUser(req, res);
     },
     addUser: (req, res) => {
         controller.addUser(req, res);

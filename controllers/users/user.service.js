@@ -9,6 +9,12 @@ class UserService {
         return db.collection('users').find().toArray();
     }
 
+
+    async getUser(id) {
+        const db = await mongo.db();
+        return db.collection('users').findOne({_id:ObjectID(id)});
+    }
+
     async addUser(data) {
         if (!data) {
             throw new Error("Data required with this request.");
