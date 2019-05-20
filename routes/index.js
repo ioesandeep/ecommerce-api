@@ -21,6 +21,8 @@ router.patch('/users/:id/password', userController.changePassword());
 
 router.delete('/users/:id', userController.deleteUser);
 
+router.get('/users/:id', userController.getUser);
+
 router.get('/users/addresses', userController.getAddresses);
 router.post('/users/addresses', userController.addAddress);
 router.patch('/users/addresses/:id', userController.updateAddress);

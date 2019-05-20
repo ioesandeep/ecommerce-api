@@ -14,10 +14,18 @@ class UserController {
             res.json({...e, status: 400 || e.status});
         }
     }
+    async getUser(req, res) {
+        try {
+            const user = await this.service.getUser(req.params.id);
+            res.json({status: 200, user: user});
+        } catch (e) {
+            res.json({...e, status: 400 || e.status});
+        }
+    }
 
     async addUser(req, res) {
         try {
-            const user = this.service.addUser(req.body);
+            const user = await this.service.addUser(req.body);
             res.json({status: 200, user});
         } catch (e) {
             console.log(e);
@@ -27,7 +35,7 @@ class UserController {
 
     async updateUser(req, res) {
         try {
-            const user = this.service.updateUser(req.body);
+            const user = await this.service.updateUser(req.body);
             res.json({status: 200, user});
         } catch (e) {
             console.log(e);
@@ -48,7 +56,7 @@ class UserController {
 
     async deleteUser(req, res) {
         try {
-            const user = this.service.deleteUser(req.body);
+            const user = await this.service.deleteUser(req.body);
             res.json({status: 200, user});
         } catch (e) {
             console.log(e);
@@ -77,7 +85,7 @@ class UserController {
 
     async updateAddress(req, res) {
         try {
-            const address = this.service.updateAddress(req.body);
+            const address = await this.service.updateAddress(req.body);
             res.json({status: 200, address});
         } catch (e) {
             console.log(e);
