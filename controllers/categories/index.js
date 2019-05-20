@@ -6,5 +6,11 @@ module.exports = {
     },
     add: (req, res) => {
         controller.add(req, res);
+    },
+    update: (req, res) => {
+        controller.update(req, res);
+    },
+    delete: (req, res) => {
+        controller.delete(req, res);
     }
 };
