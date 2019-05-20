@@ -1,6 +1,7 @@
 const mongo = require('../../db');
 const {ObjectID} = require("mongodb");
 const userID = "5ce2286544e6f33c6c7fcdd0";
+const token = require('jsonwebtoken');
 
 class UserService {
     async getUsers() {
@@ -195,6 +196,30 @@ class UserService {
         }
 
         return true
+    }
+
+    async authUser(email, password) {
+        const db = await mongo.db();
+        const user = await db.collection('users').findOne({email: email, password: password});
+        if (!user) {
+            throw new Error("User not found.");
+        }
+
+        const signed = token.sign({_id: user._id, name: user.name, email: user.email}, 'mwa2019');
+        db.collection('users').updateOne({_id: user._id}, {$set: {token: signed}});
+
+        user.token = signed;
+        return user;
+    }
+
+    async getByToken(token) {
+        const db = await mongo.db();
+        const user = await db.collection('users').findOne({token: token});
+        if (!user) {
+            throw new Error("User not found.");
+        }
+
+        return user;
     }
 
 }

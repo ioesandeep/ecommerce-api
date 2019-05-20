@@ -25,6 +25,8 @@ router.delete('/coupons/:id', couponsController.deleteCoupon);
 
 router.get('/users', userController.getUsers);
 router.post('/users', userController.addUser);
+router.post('/users/auth', userController.authenticate);
+router.get('/users/token/:token', userController.getByToken);
 router.put('/users/:id', userController.updateUser);
 router.delete('/users/:id', userController.deleteUser);
 
@@ -40,6 +42,3 @@ router.delete('/users/payments/:id', userController.deletePayments);
 
 
 module.exports = router;
-
-
-
