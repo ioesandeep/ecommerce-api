@@ -35,6 +35,17 @@ class UserController {
         }
     }
 
+    async changePassword(req, res) {
+        try {
+            const user = this.service.changePassword(req.body);
+            res.json({status: 200, user});
+        } catch (e) {
+            console.log(e);
+            res.json({...e, status: 400 || e.status});
+        }
+    }
+
+
     async deleteUser(req, res) {
         try {
             const user = this.service.deleteUser(req.body);
@@ -48,8 +59,8 @@ class UserController {
     //CRUD User Address
     async getAddresses(req, res) {
         try {
-            const users = await this.service.getAddresses(req.body);
-            res.json({status: 200, users: users || []});
+            const addresses = await this.service.getAddresses(req.body);
+            res.json({status: 200, addresses: addresses || []});
         } catch (e) {
             res.json({...e, status: 400 || e.status});
         }
@@ -130,6 +141,8 @@ class UserController {
             res.json({...e, status: 400 || e.status});
         }
     }
+
+
 
 }
 

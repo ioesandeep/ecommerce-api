@@ -44,6 +44,25 @@ class UserService {
         return data;
     }
 
+    async changePassword(data) {
+        if (!data) {
+            throw new Error("Data required with this request.");
+        }
+        const db = await mongo.db();
+        const res = await db.collection('users').updateOne({_id: ObjectID(data._id)}, {
+            $set: {
+                password: data.password
+            }
+        });
+
+        console.log(res);
+        if (!res || !res.ops) {
+            throw new Error("User could not be saved.");
+        }
+
+        return data;
+    }
+
     async deleteUser(data) {
         if (!data) {
             throw new Error("Data required with this request.");
@@ -67,13 +86,10 @@ class UserService {
 
         console.log(userID);
 
-        const res = await db.collection('users').find({_id: ObjectID(userID)}).project({
-            _id: 0,
-            addresses: 1
-        }).toArray();
+        const res = await db.collection('users').findOne({_id: ObjectID(userID)}, {projection:{_id:0, addresses:1}});
 
         console.log(res);
-        return res;
+        return res.addresses;
     }
 
     async addAddress(data) {
