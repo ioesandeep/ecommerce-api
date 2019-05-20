@@ -35,7 +35,7 @@ class UserController {
 
     async updateUser(req, res) {
         try {
-            const user = await this.service.updateUser(req.body);
+            const user = await this.service.updateUser(req.params.id , req.body);
             res.json({status: 200, user});
         } catch (e) {
             console.log(e);
@@ -45,14 +45,13 @@ class UserController {
 
     async changePassword(req, res) {
         try {
-            const user = this.service.changePassword(req.body);
+            const user = this.service.changePassword(req.params.id, req.body);
             res.json({status: 200, user});
         } catch (e) {
             console.log(e);
             res.json({...e, status: 400 || e.status});
         }
     }
-
 
     async deleteUser(req, res) {
         try {

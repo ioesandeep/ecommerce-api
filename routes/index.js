@@ -17,7 +17,7 @@ router.delete('/coupons/:id', couponsController.deleteCoupon);
 router.get('/users', userController.getUsers);
 router.post('/users', userController.addUser);
 router.patch('/users/:id', userController.updateUser);
-router.patch('/users/:id/password', userController.changePassword());
+router.patch('/users/:id/password', userController.changePassword);
 
 router.delete('/users/:id', userController.deleteUser);
 

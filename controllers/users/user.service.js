@@ -30,12 +30,12 @@ class UserService {
         return res.ops[0];
     }
 
-    async updateUser(data) {
+    async updateUser(uid , data) {
         if (!data) {
             throw new Error("Data required with this request.");
         }
         const db = await mongo.db();
-        const res = await db.collection('users').updateOne({_id: ObjectID(data._id)}, {
+        const res = await db.collection('users').updateOne({_id: ObjectID(uid)}, {
             $set: {
                 name: data.name,
                 mobile: data.mobile
@@ -46,18 +46,17 @@ class UserService {
         if (!res || !res.ops) {
             throw new Error("User could not be saved.");
         }
-
         return data;
     }
 
-    async changePassword(data) {
+    async changePassword( uid, data) {
         if (!data) {
             throw new Error("Data required with this request.");
         }
         const db = await mongo.db();
-        const res = await db.collection('users').updateOne({_id: ObjectID(data._id)}, {
+        const res = await db.collection('users').updateOne({_id: ObjectID(uid)}, {
             $set: {
-                password: data.password
+                password: data.newPassword
             }
         });
 
@@ -68,7 +67,6 @@ class UserService {
 
         return data;
     }
-
     async deleteUser(data) {
         if (!data) {
             throw new Error("Data required with this request.");
