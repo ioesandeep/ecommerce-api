@@ -8,7 +8,6 @@ class UserService {
         return db.collection('users').find().toArray();
     }
 
-
     async getUser(id) {
         const db = await mongo.db();
         return db.collection('users').findOne({_id: ObjectID(id)});
@@ -20,11 +19,9 @@ class UserService {
         }
         const db = await mongo.db();
         const res = await db.collection('users').insertOne(data);
-        console.log(res);
         if (!res || !res.ops) {
             throw new Error("User could not be saved.");
         }
-
         return res.ops[0];
     }
 
@@ -39,8 +36,6 @@ class UserService {
                 mobile: data.mobile
             }
         });
-
-        console.log(res);
         if (!res || !res.ops) {
             throw new Error("User could not be saved.");
         }
@@ -57,12 +52,9 @@ class UserService {
                 password: data.newPassword
             }
         });
-
-        console.log(res);
         if (!res || !res.ops) {
             throw new Error("User could not be saved.");
         }
-
         return data;
     }
 
@@ -70,13 +62,8 @@ class UserService {
         if (!data) {
             throw new Error("Data required with this request.");
         }
-
         const db = await mongo.db();
-
         const res = await db.collection('users').remove({"_id": ObjectID(data._id)});
-        //working fine
-        //const res = await db.collection('users').remove({"name":  data.name });
-        console.log(res);
         if (!res || !res.ops) {
             throw new Error("User could not be saved.");
         }
@@ -85,11 +72,7 @@ class UserService {
 
     async getAddresses(uid) {
         const db = await mongo.db();
-
-
         const res = await db.collection('users').findOne({_id: ObjectID(uid)}, {projection: {_id: 0, addresses: 1}});
-
-        console.log(res);
         return res.addresses;
     }
 
@@ -103,8 +86,6 @@ class UserService {
             {_id: ObjectID(uid)},
             {$push: {addresses: save}}
         );
-
-        console.log(res);
         if (!res || res.modifiedCount === 0) {
             throw new Error("Address could not be saved.");
         }
@@ -149,12 +130,9 @@ class UserService {
         return true;
     }
 
-
     async getPayments(uid) {
         const db = await mongo.db();
         const res = await db.collection('users').findOne({_id: ObjectID(uid)}, {projection: {_id: 0, payments: 1}});
-
-        console.log(res);
         return res.payments || [];
     }
 
@@ -184,7 +162,6 @@ class UserService {
             {_id: ObjectID(uid), "payments._id": ObjectID(data._id)},
             {$set: {"payments.$": {...data}}}
         );
-        console.log(res);
         if (!res || !res.modifiedCount) {
             throw new Error("Payment Method could not be updated.");
         }
@@ -227,10 +204,8 @@ class UserService {
         if (!user) {
             throw new Error("User not found.");
         }
-
         return user;
     }
-
 }
 
 module.exports = UserService;

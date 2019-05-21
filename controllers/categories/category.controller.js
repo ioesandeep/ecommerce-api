@@ -50,7 +50,6 @@ class CategoryController {
         }
     }
 
-
     async getCategory(req, res) {
         try {
             const products = await this.service.getCategoryProducts(req.params.slug);
