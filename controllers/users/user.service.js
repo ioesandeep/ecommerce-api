@@ -85,9 +85,7 @@ class UserService {
 
     async getAddresses(uid) {
         const db = await mongo.db();
-        //console.log(data._id);
 
-        console.log(userID);
 
         const res = await db.collection('users').findOne({_id: ObjectID(uid)}, {projection:{_id:0, addresses:1}});
 
@@ -149,16 +147,12 @@ class UserService {
     }
 
 
-    async getPayments(data) {
+    async getPayments(uid) {
         const db = await mongo.db();
-        console.log(data._id);
-        const res = await db.collection('users').find({_id: ObjectID(data._id)}).project({
-            _id: 0,
-            payments: 1
-        }).toArray();
+        const res = await db.collection('users').findOne({_id: ObjectID(uid)},{projection:{_id:0, payments:1}});
 
         console.log(res);
-        return res;
+        return res.payments || [];
     }
 
     async addPayement(uid,data) {

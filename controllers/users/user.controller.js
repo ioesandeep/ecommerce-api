@@ -71,6 +71,7 @@ class UserController {
             const addresses = await this.service.getAddresses(req.params.uid);
             res.json({status: 200, addresses: addresses || []});
         } catch (e) {
+            console.log(e);
             res.json({...e, status: 400 || e.status});
         }
     }
@@ -111,7 +112,7 @@ class UserController {
     //CRUD User Payments
     async getPayments(req, res) {
         try {
-            const payments = await this.service.getPayments(req.body);
+            const payments = await this.service.getPayments(req.params.uid);
             res.json({status: 200, payments: payments || []});
         } catch (e) {
             res.json({...e, status: 400 || e.status});
@@ -151,7 +152,6 @@ class UserController {
             res.json({...e, status: 400 || e.status});
         }
     }
-
     async authenticate(req, res) {
         try {
             if (!req.body) {
@@ -182,7 +182,6 @@ class UserController {
             res.json({...e, status: 400 || e.status});
         }
     }
-
 }
 
 module.exports = new UserController();
