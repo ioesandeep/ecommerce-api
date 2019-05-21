@@ -139,6 +139,37 @@ class UserController {
         }
     }
 
+    async authenticate(req, res) {
+        try {
+            if (!req.body) {
+                throw new Error("Data expected with this request.");
+            }
+
+            const data = req.body;
+            const user = await this.service.authUser(data.email, data.password);
+
+            delete user.password;
+            res.json({status: 200, user: user})
+        } catch (e) {
+            console.log(e);
+            res.json({...e, status: 400 || e.status});
+        }
+    }
+
+    async getByToken(req, res) {
+        try {
+            if (!req.body) {
+                throw new Error("Data expected with this request.");
+            }
+
+            const user = await this.service.getByToken(req.params.token);
+            delete user.password;
+            res.json({status: 200, user: user})
+        } catch (e) {
+            res.json({...e, status: 400 || e.status});
+        }
+    }
+
 }
 
 module.exports = new UserController();

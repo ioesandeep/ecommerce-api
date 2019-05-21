@@ -14,6 +14,15 @@ class CategoryController {
         }
     }
 
+    async childCategories(req, res) {
+        try {
+            const categories = await this.service.getChildCategories(req.params.id);
+            res.json({status: 200, categories: categories || []});
+        } catch (e) {
+            res.json({status: 400 || e.status, message: e.message});
+        }
+    }
+
     async add(req, res) {
         try {
             const category = await this.service.add(req.body);
