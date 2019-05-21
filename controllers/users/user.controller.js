@@ -14,6 +14,7 @@ class UserController {
             res.json({...e, status: 400 || e.status});
         }
     }
+
     async getUser(req, res) {
         try {
             const user = await this.service.getUser(req.params.id);
@@ -166,7 +167,7 @@ class UserController {
             delete user.password;
             res.json({status: 200, user: user})
         } catch (e) {
-            res.json({...e, status: 400 || e.status});
+            res.json({status: 400, message: e.message});
         }
     }
 
