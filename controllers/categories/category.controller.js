@@ -10,7 +10,7 @@ class CategoryController {
             const categories = await this.service.getCategories();
             res.json({status: 200, categories: categories || []});
         } catch (e) {
-            res.json({status: 400 || e.status, message: e.message});
+            res.json({status: 400, message: e.message});
         }
     }
 
@@ -19,7 +19,7 @@ class CategoryController {
             const categories = await this.service.getChildCategories(req.params.id);
             res.json({status: 200, categories: categories || []});
         } catch (e) {
-            res.json({status: 400 || e.status, message: e.message});
+            res.json({status: 400, message: e.message});
         }
     }
 
@@ -28,7 +28,7 @@ class CategoryController {
             const category = await this.service.add(req.body);
             res.json({status: 200, category});
         } catch (e) {
-            res.json({status: 400 || e.status, message: e.message});
+            res.json({status: 400, message: e.message});
         }
     }
 
@@ -37,7 +37,7 @@ class CategoryController {
             const category = await this.service.update(req.body);
             res.json({status: 200, category});
         } catch (e) {
-            res.json({status: 400 || e.status, message: e.message});
+            res.json({status: 400, message: e.message});
         }
     }
 
@@ -46,17 +46,16 @@ class CategoryController {
             const category = await this.service.delete(req.param.id);
             res.json({status: 200, category});
         } catch (e) {
-            res.json({status: 400 || e.status, message: e.message});
+            res.json({status: 400, message: e.message});
         }
     }
-
 
     async getCategory(req, res) {
         try {
             const products = await this.service.getCategoryProducts(req.params.slug);
             res.json({status: 200, products: products || []});
         } catch (e) {
-            res.json({status: 400 || e.status, message: e.message});
+            res.json({status: 400, message: e.message});
         }
     }
 }

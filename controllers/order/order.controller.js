@@ -70,7 +70,6 @@ class OrderController {
             res.json({status: 400, message: e.message});
         }
     }
-
 }
 
 module.exports = new OrderController();
