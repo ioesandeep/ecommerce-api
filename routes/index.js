@@ -23,16 +23,15 @@ router.delete('/users/:id', userController.deleteUser);
 
 router.get('/users/:id', userController.getUser);
 
-router.get('/users/addresses', userController.getAddresses);
-router.post('/users/addresses', userController.addAddress);
-router.patch('/users/addresses/:id', userController.updateAddress);
-router.delete('/users/addresses/:id', userController.deleteAddress);
+router.get('/users/:id/addresses', userController.getAddresses);
+router.post('/users/:id/addresses', userController.addAddress);
+router.patch('/users/:id/addresses/:id', userController.updateAddress);
+router.delete('/users/:id/addresses/:id', userController.deleteAddress);
 
-router.get('/users/payments', userController.getPayments);
-router.post('/users/payments', userController.addPayments);
-router.patch('/users/payments/:id', userController.updatePayments);
-router.delete('/users/payments/:id', userController.deletePayments);
-
+router.get('/users/:id/payments', userController.getPayments);
+router.post('/users/:id/payments', userController.addPayments);
+router.patch('/users/:id/payments/:id', userController.updatePayments);
+router.delete('/users/:id/payments/:id', userController.deletePayments);
 
 module.exports = router;
 
