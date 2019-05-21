@@ -7,9 +7,9 @@ class CategoryService {
         return db.collection('categories').find().toArray();
     }
 
-    async getCategory(match) {
+    async getCategoryProducts(slug) {
         const db = await mongo.db();
-        return await db.collection('categories').findOne(match);
+        return await db.collection('products').find({'category.slug': slug}).toArray();
     }
 
     async add(data) {
@@ -30,7 +30,6 @@ class CategoryService {
         if (!data) {
             throw new Error("Data required with this request.");
         }
-
         if (!data._id) {
             throw new Error("Category not selected.");
         }

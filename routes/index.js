@@ -10,9 +10,12 @@ router.post('/categories', categoryController.add);
 router.patch('/categories/:id', categoryController.update);
 router.delete('/categories/:id', categoryController.delete);
 
+router.get('/category/products/:slug', categoryController.getCategory);
+
+
 router.get('/coupons', couponsController.getCoupons);
 router.post('/coupons', couponsController.addCoupon);
-router.patch('/coupons', couponsController.updateCoupon);
+router.patch('/coupons/:id', couponsController.updateCoupon);
 router.delete('/coupons/:id', couponsController.deleteCoupon);
 
 

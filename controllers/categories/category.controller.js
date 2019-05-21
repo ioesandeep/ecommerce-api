@@ -40,6 +40,16 @@ class CategoryController {
             res.json({status: 400 || e.status, message: e.message});
         }
     }
+
+
+    async getCategory(req, res) {
+        try {
+            const products = await this.service.getCategoryProducts(req.params.slug);
+            res.json({status: 200, products: products || []});
+        } catch (e) {
+            res.json({status: 400 || e.status, message: e.message});
+        }
+    }
 }
 
 module.exports = new CategoryController();
