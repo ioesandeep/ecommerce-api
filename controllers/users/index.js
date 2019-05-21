@@ -42,5 +42,11 @@ module.exports = {
     },
     deletePayments: (req, res) => {
         controller.deletePayments(req, res);
+    },
+    authenticate: (req, res) => {
+        controller.authenticate(req, res);
+    },
+    getByToken: (req, res) => {
+        controller.getByToken(req, res);
     }
 };

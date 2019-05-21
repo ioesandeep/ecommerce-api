@@ -14,6 +14,7 @@ class UserController {
             res.json({...e, status: 400 || e.status});
         }
     }
+
     async getUser(req, res) {
         try {
             const user = await this.service.getUser(req.params.id);
@@ -35,7 +36,7 @@ class UserController {
 
     async updateUser(req, res) {
         try {
-            const user = await this.service.updateUser(req.params.id , req.body);
+            const user = await this.service.updateUser(req.params.id, req.body);
             res.json({status: 200, user});
         } catch (e) {
             console.log(e);
@@ -66,7 +67,8 @@ class UserController {
     //CRUD User Address
     async getAddresses(req, res) {
         try {
-            const addresses = await this.service.getAddresses(req.body);
+
+            const addresses = await this.service.getAddresses(req.params.uid);
             res.json({status: 200, addresses: addresses || []});
         } catch (e) {
             res.json({...e, status: 400 || e.status});
@@ -75,7 +77,7 @@ class UserController {
 
     async addAddress(req, res) {
         try {
-            const users = await this.service.addAddress(req.body);
+            const users = await this.service.addAddress(req.params.uid, req.body);
             res.json({status: 200, users: users || []});
         } catch (e) {
             res.json({...e, status: 400 || e.status});
@@ -84,7 +86,7 @@ class UserController {
 
     async updateAddress(req, res) {
         try {
-            const address = await this.service.updateAddress(req.body);
+            const address = await this.service.updateAddress(req.params.uid, req.body);
             res.json({status: 200, address});
         } catch (e) {
             console.log(e);
@@ -92,9 +94,10 @@ class UserController {
         }
     }
 
+
     async deleteAddress(req, res) {
         try {
-            const deleted = await this.service.deleteAddress(req.params.id);
+            const deleted = await this.service.deleteAddress(req.params.uid, req.params.id);
             if (!deleted) {
                 throw new Error("Address could not be deleted.")
             }
@@ -117,7 +120,7 @@ class UserController {
 
     async addPayments(req, res) {
         try {
-            const payment = await this.service.addPayement(req.body);
+            const payment = await this.service.addPayement(req.params.uid, req.body);
             res.json({status: 200, users: payment || []});
         } catch (e) {
             console.log(e);
@@ -127,7 +130,7 @@ class UserController {
 
     async updatePayments(req, res) {
         try {
-            const payment = await this.service.updatePayments(req.body);
+            const payment = await this.service.updatePayments(req.params.uid, req.body);
             res.json({status: 200, payment});
         } catch (e) {
             console.log(e);
@@ -138,7 +141,7 @@ class UserController {
     async deletePayments(req, res) {
 
         try {
-            const deleted = await this.service.deletePayment(req.params.id);
+            const deleted = await this.service.deletePayment(req.params.uid, req.params.id);
             if (!deleted) {
                 throw new Error("Payment method could not be deleted.")
             }
@@ -149,7 +152,36 @@ class UserController {
         }
     }
 
+    async authenticate(req, res) {
+        try {
+            if (!req.body) {
+                throw new Error("Data expected with this request.");
+            }
 
+            const data = req.body;
+            const user = await this.service.authUser(data.email, data.password);
+
+            delete user.password;
+            res.json({status: 200, user: user})
+        } catch (e) {
+            console.log(e);
+            res.json({...e, status: 400 || e.status});
+        }
+    }
+
+    async getByToken(req, res) {
+        try {
+            if (!req.body) {
+                throw new Error("Data expected with this request.");
+            }
+
+            const user = await this.service.getByToken(req.params.token);
+            delete user.password;
+            res.json({status: 200, user: user})
+        } catch (e) {
+            res.json({...e, status: 400 || e.status});
+        }
+    }
 
 }
 
