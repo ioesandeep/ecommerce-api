@@ -19,8 +19,9 @@ class AdminMiddleware {
 
             return next();
         } catch (e) {
-            res.status(403);
-            next(e);
+            //res.status(403);
+            next();
+            //next(e);
         }
     }
 }
