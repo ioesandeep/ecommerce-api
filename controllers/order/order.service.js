@@ -1,5 +1,6 @@
 const {ObjectID} = require('mongodb');
-const stripe = require('stripe')('sk_test_4quWezbnkmlhLybWd0CGmmom00976mBzp4');
+const config = require('../../config');
+const stripe = require('stripe')(config.stripe.secret);
 const mongo = require('../../db');
 
 class OrderService {
