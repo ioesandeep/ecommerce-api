@@ -58,16 +58,13 @@ class UserService {
         return data;
     }
 
-    async deleteUser(data) {
-        if (!data) {
-            throw new Error("Data required with this request.");
-        }
+    async deleteUser(id) {
         const db = await mongo.db();
-        const res = await db.collection('users').remove({"_id": ObjectID(data._id)});
-        if (!res || !res.ops) {
+        const res = await db.collection('users').removeOne({_id: ObjectID(id)});
+        if (!res || !res.deletedCount) {
             throw new Error("User could not be saved.");
         }
-        return res.ops[0];
+        return true
     }
 
     async getAddresses(uid) {
