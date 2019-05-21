@@ -28,8 +28,8 @@ class OrderService {
 
     async addAnOrder(data) {
         const db = await mongo.db();
-
         await this.chargeViaStripe(data);
+
         data.status = 1;
         data.orderDate = new Date();
         const res = await db.collection('orders').insertOne(data);
