@@ -4,6 +4,7 @@ const categoryController = require('../controllers/categories');
 const productController = require('../controllers/products');
 const userController = require('../controllers/users');
 const couponsController = require('../controllers/coupons');
+const orderController = require('../controllers/order');
 
 router.get('/categories', categoryController.getAll);
 router.post('/categories', categoryController.add);
@@ -25,25 +26,34 @@ router.post('/coupons', couponsController.addCoupon);
 router.patch('/coupons/:id', couponsController.updateCoupon);
 router.delete('/coupons/:id', couponsController.deleteCoupon);
 
-
 router.get('/users', userController.getUsers);
 router.post('/users', userController.addUser);
+router.patch('/users/:id', userController.updateUser);
+router.patch('/users/:id/password', userController.changePassword);
+
 router.post('/users/auth', userController.authenticate);
 router.get('/users/token/:token', userController.getByToken);
 router.put('/users/:id', userController.updateUser);
-router.delete('/users/:id', userController.deleteUser);
 
+router.delete('/users/:id', userController.deleteUser);
 router.get('/users/:id', userController.getUser);
 
-router.get('/users/addresses', userController.getAddresses);
-router.post('/users/addresses', userController.addAddress);
-router.put('/users/addresses/:id', userController.updateAddress);
-router.delete('/users/addresses/:id', userController.deleteAddress);
+router.get('/users/:uid/addresses', userController.getAddresses);
+router.post('/users/:uid/addresses', userController.addAddress);
+router.patch('/users/:uid/addresses/:id', userController.updateAddress);
+router.delete('/users/:uid/addresses/:id', userController.deleteAddress);
 
-router.get('/users/payments', userController.getPayments);
-router.post('/users/payments', userController.addPayments);
-router.put('/users/payments/:id', userController.updatePayments);
-router.delete('/users/payments/:id', userController.deletePayments);
+router.get('/users/:uid/payments', userController.getPayments);
+router.post('/users/:uid/payments', userController.addPayments);
+router.patch('/users/:uid/payments/:id', userController.updatePayments);
+router.delete('/users/:uid/payments/:id', userController.deletePayments);
 
+router.get('/orders', orderController.getAll);
+router.get('/orders/:id', orderController.getOrder);
+
+router.get('/orders/user/:uid', orderController.getUserOrders);
+router.get('/orders/user/:uid/:id', orderController.getOrder);
+
+router.post('/orders', orderController.add);
 
 module.exports = router;
