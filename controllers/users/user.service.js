@@ -1,5 +1,7 @@
 const mongo = require('../../db');
 const {ObjectID} = require("mongodb");
+const config = require('../../config');
+const stripe = require('stripe')(config.stripe.secret);
 const token = require('jsonwebtoken');
 
 class UserService {
@@ -58,16 +60,13 @@ class UserService {
         return data;
     }
 
-    async deleteUser(data) {
-        if (!data) {
-            throw new Error("Data required with this request.");
-        }
+    async deleteUser(id) {
         const db = await mongo.db();
-        const res = await db.collection('users').remove({"_id": ObjectID(data._id)});
-        if (!res || !res.ops) {
+        const res = await db.collection('users').removeOne({_id: ObjectID(id)});
+        if (!res || !res.deletedCount) {
             throw new Error("User could not be saved.");
         }
-        return res.ops[0];
+        return true
     }
 
     async getAddresses(uid) {
@@ -140,8 +139,18 @@ class UserService {
         if (!data) {
             throw new Error("Data required with this request.");
         }
+
         const db = await mongo.db();
         const save = {_id: new ObjectID(), ...data};
+
+        const user = this.getUser(uid);
+        const customer = await stripe.customers.create({
+            email: user.email,
+            source: save.token
+        });
+        save.customer = customer;
+        save.customer_id = customer.id;
+
         const res = await db.collection('users').updateOne(
             {_id: ObjectID(uid)},
             {$push: {payments: save}}
