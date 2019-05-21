@@ -19,6 +19,9 @@ router.post('/products', middlewares.admin, productController.add);
 router.patch('/products/:id', middlewares.admin, productController.update);
 router.delete('/products/:id', middlewares.admin, productController.delete);
 
+router.get('/category/products/:slug', categoryController.getCategory);
+
+
 router.get('/coupons', couponsController.getCoupons);
 router.post('/coupons', middlewares.admin, couponsController.addCoupon);
 router.patch('/coupons', middlewares.admin, couponsController.updateCoupon);
