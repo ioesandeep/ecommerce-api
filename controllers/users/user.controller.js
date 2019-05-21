@@ -121,7 +121,7 @@ class UserController {
     async addPayments(req, res) {
         try {
             const payment = await this.service.addPayement(req.params.uid, req.body);
-            res.json({status: 200, users: payment || []});
+            res.json({status: 200, card: payment || []});
         } catch (e) {
             console.log(e);
             res.json({...e, status: 400 || e.status});
