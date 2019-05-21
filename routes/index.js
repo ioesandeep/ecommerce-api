@@ -4,6 +4,7 @@ const categoryController = require('../controllers/categories');
 const productController = require('../controllers/products');
 const userController = require('../controllers/users');
 const couponsController = require('../controllers/coupons');
+const orderController = require('../controllers/order');
 
 router.get('/categories', categoryController.getAll);
 router.post('/categories', categoryController.add);
@@ -17,9 +18,12 @@ router.post('/products', productController.add);
 router.patch('/products/:id', productController.update);
 router.delete('/products/:id', productController.delete);
 
+router.get('/category/products/:slug', categoryController.getCategory);
+
+
 router.get('/coupons', couponsController.getCoupons);
 router.post('/coupons', couponsController.addCoupon);
-router.patch('/coupons', couponsController.updateCoupon);
+router.patch('/coupons/:id', couponsController.updateCoupon);
 router.delete('/coupons/:id', couponsController.deleteCoupon);
 
 router.get('/users', userController.getUsers);
@@ -43,5 +47,13 @@ router.get('/users/:uid/payments', userController.getPayments);
 router.post('/users/:uid/payments', userController.addPayments);
 router.patch('/users/:uid/payments/:id', userController.updatePayments);
 router.delete('/users/:uid/payments/:id', userController.deletePayments);
+
+router.get('/orders', orderController.getAll);
+router.get('/orders/:id', orderController.getOrder);
+
+router.get('/orders/user/:uid', orderController.getUserOrders);
+router.get('/orders/user/:uid/:id', orderController.getOrder);
+
+router.post('/orders', orderController.add);
 
 module.exports = router;

@@ -15,5 +15,8 @@ module.exports = {
     },
     delete: (req, res) => {
         controller.delete(req, res);
+    },
+    getCategory: (req, res) => {
+        controller.getCategory(req, res);
     }
 };
