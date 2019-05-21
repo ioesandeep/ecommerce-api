@@ -78,8 +78,8 @@ class UserController {
 
     async addAddress(req, res) {
         try {
-            const users = await this.service.addAddress(req.params.uid, req.body);
-            res.json({status: 200, users: users || []});
+            const address = await this.service.addAddress(req.params.uid, req.body);
+            res.json({status: 200, address});
         } catch (e) {
             res.json({...e, status: 400 || e.status});
         }
@@ -88,6 +88,7 @@ class UserController {
     async updateAddress(req, res) {
         try {
             const address = await this.service.updateAddress(req.params.uid, req.body);
+            address._id = req.params.id;
             res.json({status: 200, address});
         } catch (e) {
             console.log(e);
@@ -105,7 +106,7 @@ class UserController {
             res.json({status: 200, message: "Address deleted successfully."});
         } catch (e) {
             console.log(e);
-            res.json({...e, status: 400 || e.status});
+            res.json({status: 400 || e.status, message: e.message});
         }
     }
 
@@ -152,6 +153,7 @@ class UserController {
             res.json({...e, status: 400 || e.status});
         }
     }
+
     async authenticate(req, res) {
         try {
             if (!req.body) {
