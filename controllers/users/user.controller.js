@@ -11,7 +11,7 @@ class UserController {
             const users = await this.service.getUsers();
             res.json({status: 200, users: users || []});
         } catch (e) {
-            res.json({...e, status: 400 || e.status});
+            res.json({status: 400, message: e.message});
         }
     }
 
@@ -20,7 +20,7 @@ class UserController {
             const user = await this.service.getUser(req.params.id);
             res.json({status: 200, user: user});
         } catch (e) {
-            res.json({...e, status: 400 || e.status});
+            res.json({status: 400, message: e.message});
         }
     }
 
@@ -29,8 +29,7 @@ class UserController {
             const user = await this.service.addUser(req.body);
             res.json({status: 200, user});
         } catch (e) {
-            console.log(e);
-            res.json({...e, status: 400 || e.status});
+            res.json({status: 400, message: e.message});
         }
     }
 
@@ -39,8 +38,7 @@ class UserController {
             const user = await this.service.updateUser(req.params.id, req.body);
             res.json({status: 200, user});
         } catch (e) {
-            console.log(e);
-            res.json({...e, status: 400 || e.status});
+            res.json({status: 400, message: e.message});
         }
     }
 
@@ -49,8 +47,7 @@ class UserController {
             const user = this.service.changePassword(req.params.id, req.body);
             res.json({status: 200, user});
         } catch (e) {
-            console.log(e);
-            res.json({...e, status: 400 || e.status});
+            res.json({status: 400, message: e.message});
         }
     }
 
@@ -59,8 +56,7 @@ class UserController {
             const user = await this.service.deleteUser(req.body);
             res.json({status: 200, user});
         } catch (e) {
-            console.log(e);
-            res.json({...e, status: 400 || e.status});
+            res.json({status: 400, message: e.message});
         }
     }
 
@@ -71,8 +67,7 @@ class UserController {
             const addresses = await this.service.getAddresses(req.params.uid);
             res.json({status: 200, addresses: addresses || []});
         } catch (e) {
-            console.log(e);
-            res.json({...e, status: 400 || e.status});
+            res.json({status: 400, message: e.message});
         }
     }
 
@@ -81,7 +76,7 @@ class UserController {
             const address = await this.service.addAddress(req.params.uid, req.body);
             res.json({status: 200, address});
         } catch (e) {
-            res.json({...e, status: 400 || e.status});
+            res.json({status: 400, message: e.message});
         }
     }
 
@@ -91,8 +86,7 @@ class UserController {
             address._id = req.params.id;
             res.json({status: 200, address});
         } catch (e) {
-            console.log(e);
-            res.json({...e, status: 400 || e.status});
+            res.json({status: 400, message: e.message});
         }
     }
 
@@ -105,8 +99,7 @@ class UserController {
             }
             res.json({status: 200, message: "Address deleted successfully."});
         } catch (e) {
-            console.log(e);
-            res.json({status: 400 || e.status, message: e.message});
+            res.json({status: 400, message: e.message});
         }
     }
 
@@ -116,7 +109,7 @@ class UserController {
             const payments = await this.service.getPayments(req.params.uid);
             res.json({status: 200, payments: payments || []});
         } catch (e) {
-            res.json({...e, status: 400 || e.status});
+            res.json({status: 400, message: e.message});
         }
     }
 
@@ -125,8 +118,7 @@ class UserController {
             const payment = await this.service.addPayement(req.params.uid, req.body);
             res.json({status: 200, card: payment || []});
         } catch (e) {
-            console.log(e);
-            res.json({...e, status: 400 || e.status});
+            res.json({status: 400, message: e.message});
         }
     }
 
@@ -135,8 +127,7 @@ class UserController {
             const payment = await this.service.updatePayments(req.params.uid, req.body);
             res.json({status: 200, payment});
         } catch (e) {
-            console.log(e);
-            res.json({...e, status: 400 || e.status});
+            res.json({status: 400, message: e.message});
         }
     }
 
@@ -149,8 +140,7 @@ class UserController {
             }
             res.json({status: 200, message: "Payment method deleted successfully."});
         } catch (e) {
-            console.log(e);
-            res.json({...e, status: 400 || e.status});
+            res.json({status: 400, message: e.message});
         }
     }
 
@@ -166,8 +156,7 @@ class UserController {
             delete user.password;
             res.json({status: 200, user: user})
         } catch (e) {
-            console.log(e);
-            res.json({...e, status: 400 || e.status});
+            res.json({status: 400, message: e.message});
         }
     }
 
