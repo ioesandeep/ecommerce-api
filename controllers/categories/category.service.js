@@ -7,6 +7,11 @@ class CategoryService {
         return db.collection('categories').find(match).toArray();
     }
 
+    async getCategory(match = {}) {
+        const db = await mongo.db();
+        return db.collection('categories').findOne(match);
+    }
+
     async getChildCategories(id) {
         return this.getCategories({parent: id});
     }

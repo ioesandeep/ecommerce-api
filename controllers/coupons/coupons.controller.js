@@ -10,7 +10,7 @@ class CouponsController {
             const coupons = await this.service.getCoupons();
             res.json({status: 200, coupons: coupons || []});
         } catch (e) {
-            res.json({...e, status: 400 || e.status});
+            res.json({status: 400, message: e.message});
         }
     }
 
@@ -19,7 +19,7 @@ class CouponsController {
             const coupon = await this.service.addCoupon(req.body);
             res.json({status: 200, coupon});
         } catch (e) {
-            res.json({status: 400 || e.status, message: e.message});
+            res.json({status: 400, message: e.message});
         }
     }
 
@@ -31,8 +31,7 @@ class CouponsController {
             }
             res.json({status: 200, message: "Coupon deleted successfully."});
         } catch (e) {
-            console.log(e)
-            res.json({...e, status: 400 || e.status});
+            res.json({status: 400, message: e.message});
         }
     }
 
@@ -41,7 +40,7 @@ class CouponsController {
             const coupon = await this.service.updateCoupon(req.body);
             res.json({status: 200, coupon});
         } catch (e) {
-            res.json({ status: 400 || e.status, message:e.message});
+            res.json({status: 400, message: e.message});
         }
     }
 }
