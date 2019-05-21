@@ -54,6 +54,23 @@ class OrderController {
         }
     }
 
+    async updateOrder(req, res) {
+        try {
+            if (!req.body) {
+                throw new Error("Data expected with this request.");
+            }
+
+            const modified = await this.service.updateOrder(req.params.id, req.body);
+            if (!modified) {
+                throw new Error("Order could not be updated.")
+            }
+
+            res.json({status: 200, message: "Order updated successfully"});
+        } catch (e) {
+            res.json({status: 400, message: e.message});
+        }
+    }
+
 }
 
 module.exports = new OrderController();

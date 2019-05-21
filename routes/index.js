@@ -51,6 +51,7 @@ router.delete('/users/:uid/payments/:id', middlewares.auth, userController.delet
 
 router.get('/orders', middlewares.admin, orderController.getAll);
 router.get('/orders/:id', orderController.getOrder);
+router.patch('/orders/:id', middlewares.admin, orderController.updateOrder);
 
 router.get('/orders/user/:uid', middlewares.auth, orderController.getUserOrders);
 router.get('/orders/user/:uid/:id', middlewares.auth, orderController.getOrder);

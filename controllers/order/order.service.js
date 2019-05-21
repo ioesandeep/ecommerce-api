@@ -60,6 +60,12 @@ class OrderService {
         const res = await db.collection('orders').find({}).toArray();
         return res || [];
     }
+
+    async updateOrder(id, update) {
+        const db = await mongo.db();
+        const res = await db.collection('orders').updateOne({_id: ObjectID(id)}, {$set: update});
+        return res.modifiedCount > 0;
+    }
 }
 
 module.exports = OrderService;
