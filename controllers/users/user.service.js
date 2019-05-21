@@ -1,6 +1,5 @@
 const mongo = require('../../db');
 const {ObjectID} = require("mongodb");
-const userID = "5ce2286544e6f33c6c7fcdd0";
 const token = require('jsonwebtoken');
 
 class UserService {
@@ -29,15 +28,33 @@ class UserService {
         return res.ops[0];
     }
 
-    async updateUser(data) {
+    async updateUser(uid , data) {
         if (!data) {
             throw new Error("Data required with this request.");
         }
         const db = await mongo.db();
-        const res = await db.collection('users').updateOne({_id: ObjectID(data._id)}, {
+        const res = await db.collection('users').updateOne({_id: ObjectID(uid)}, {
             $set: {
                 name: data.name,
                 mobile: data.mobile
+            }
+        });
+
+        console.log(res);
+        if (!res || !res.ops) {
+            throw new Error("User could not be saved.");
+        }
+        return data;
+    }
+
+    async changePassword( uid, data) {
+        if (!data) {
+            throw new Error("Data required with this request.");
+        }
+        const db = await mongo.db();
+        const res = await db.collection('users').updateOne({_id: ObjectID(uid)}, {
+            $set: {
+                password: data.newPassword
             }
         });
 
@@ -66,29 +83,26 @@ class UserService {
         return res.ops[0];
     }
 
-    async getAddresses(data) {
+    async getAddresses(uid) {
         const db = await mongo.db();
         //console.log(data._id);
 
         console.log(userID);
 
-        const res = await db.collection('users').find({_id: ObjectID(userID)}).project({
-            _id: 0,
-            addresses: 1
-        }).toArray();
+        const res = await db.collection('users').findOne({_id: ObjectID(uid)}, {projection:{_id:0, addresses:1}});
 
         console.log(res);
-        return res;
+        return res.addresses;
     }
 
-    async addAddress(data) {
+    async addAddress(uid,data) {
         if (!data) {
             throw new Error("Data required with this request.");
         }
         const db = await mongo.db();
         const save = {_id: new ObjectID(), ...data};
         const res = await db.collection('users').updateOne(
-            {_id: ObjectID(userID)},
+            {_id: ObjectID(uid)},
             {$push: {addresses: save}}
         );
 
@@ -99,7 +113,7 @@ class UserService {
         return save;
     }
 
-    async updateAddress(data) {
+    async updateAddress(uid , data) {
         if (!data) {
             throw new Error("Data required with this request.");
         }
@@ -107,7 +121,7 @@ class UserService {
         console.log(data);
 
         const res = await db.collection('users').updateOne(
-            {_id: ObjectID(userID), "addresses._id": ObjectID(data._id)},
+            {_id: ObjectID(uid), "addresses._id": ObjectID(data._id)},
             {$set: {"addresses.$": {...data}}}
         );
         console.log(res);
@@ -117,13 +131,13 @@ class UserService {
         return data;
     }
 
-    async deleteAddress(id) {
+    async deleteAddress(uid , id) {
         if (!id) {
             throw new Error("Data required with this request.");
         }
         const db = await mongo.db();
         const res = await db.collection('users').updateOne(
-            {_id: ObjectID(userID)},
+            {_id: ObjectID(uid)},
             {$pull: {addresses: {_id: ObjectID(id)}}}
         );
 
@@ -147,21 +161,16 @@ class UserService {
         return res;
     }
 
-    async addPayement(data) {
+    async addPayement(uid,data) {
         if (!data) {
             throw new Error("Data required with this request.");
         }
         const db = await mongo.db();
-
-        console.log(userID);
-        console.log(data);
-
         const save = {_id: new ObjectID(), ...data};
         const res = await db.collection('users').updateOne(
-            {_id: ObjectID(userID)},
+            {_id: ObjectID(uid)},
             {$push: {payments: save}}
         );
-
         console.log(res);
         if (!res || res.modifiedCount === 0) {
             throw new Error("Payment Method could not be saved.");
@@ -169,15 +178,13 @@ class UserService {
         return save;
     }
 
-    async updatePayment(data) {
+    async updatePayment(uid ,data) {
         if (!data) {
             throw new Error("Data required with this request.");
         }
         const db = await mongo.db();
-        console.log(data);
-
         const res = await db.collection('users').updateOne(
-            {_id: ObjectID(userID), "payments._id": ObjectID(data._id)},
+            {_id: ObjectID(uid), "payments._id": ObjectID(data._id)},
             {$set: {"payments.$": {...data}}}
         );
         console.log(res);
@@ -187,20 +194,19 @@ class UserService {
         return data;
     }
 
-    async deletePayment(id) {
+    async deletePayment(uid, id) {
         if (!id) {
             throw new Error("Data required with this request.");
         }
         const db = await mongo.db();
         const res = await db.collection('users').updateOne(
-            {_id: ObjectID(userID)},
+            {_id: ObjectID(uid)},
             {$pull: {payments: {_id: ObjectID(id)}}}
         );
 
         if (!res || !res.modifiedCount) {
             throw new Error("Payments Method could not be deleted.");
         }
-
         return true
     }
 

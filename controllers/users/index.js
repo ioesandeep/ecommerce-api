@@ -13,6 +13,9 @@ module.exports = {
     updateUser: (req, res) => {
         controller.updateUser(req, res);
     },
+    changePassword: (req, res) => {
+        controller.changePassword(req, res);
+    },
     deleteUser: (req, res) => {
         controller.deleteUser(req, res);
     },
